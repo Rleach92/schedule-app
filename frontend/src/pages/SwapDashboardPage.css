@@ -1,0 +1,19 @@
+/* frontend/src/pages/SwapDashboardPage.css */
+
+.swap-dashboard-container {
+  width: 90%;
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 15px;
+  font-family: Arial, sans-serif;
+}
+
+.swap-dashboard-container h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #343a40;
+  text-align: center;
+  font-size: 1.8em;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #dee2e6;
+}
