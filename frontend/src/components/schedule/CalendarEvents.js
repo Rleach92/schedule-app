@@ -1,20 +1,32 @@
 // frontend/src/components/schedule/CalendarEvents.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Added useEffect
 import { useAuth } from '../../context/AuthContext';
 import { toYYYYMMDD } from '../../utils/date-helpers';
-import './CalendarEvents.css'; // 1. Import CSS
+import './CalendarEvents.css'; // Assuming CSS file exists
 
-// 2. Delete styles object
+// Define the base URL for the API
+const API_URL = 'https://my-schedule-api-q374.onrender.com';
 
 function CalendarEvents({ events, weekStart, onEventChange }) {
   const { token } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
-    date: toYYYYMMDD(weekStart),
+    // Initialize date based on weekStart, title, and type
+    date: toYYYYMMDD(weekStart || new Date()), // Use weekStart or default to today
     title: '',
     type: 'MEETING',
   });
 
+  // Update form date when weekStart prop changes
+  useEffect(() => {
+    setFormData(prevData => ({
+      ...prevData,
+      date: toYYYYMMDD(weekStart || new Date())
+    }));
+  }, [weekStart]);
+
+
+  // Destructure after useState
   const { date, title, type } = formData;
 
   const onChange = (e) =>
@@ -22,12 +34,13 @@ function CalendarEvents({ events, weekStart, onEventChange }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title) {
+    if (!title.trim()) { // Check trimmed title
       alert('Please enter a title for the event.');
       return;
     }
     try {
-      const res = await fetch('http://localhost:5000/api/calendar-events', {
+      if (!token) throw new Error("Authentication token is missing.");
+      const res = await fetch(`${API_URL}/api/calendar-events`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,8 +54,10 @@ function CalendarEvents({ events, weekStart, onEventChange }) {
         throw new Error(errData.msg || 'Failed to create event');
       }
 
-      onEventChange();
-      setFormData({ ...formData, title: '' }); // Only clear title
+      onEventChange(); // Trigger a refetch in SchedulePage
+      // Reset only title, keep date and type for potentially adding another event on the same day/type
+      setFormData(prevData => ({ ...prevData, title: '' }));
+
     } catch (err) {
       alert(err.message);
     }
@@ -51,21 +66,27 @@ function CalendarEvents({ events, weekStart, onEventChange }) {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this event?')) {
       try {
-        const res = await fetch(`http://localhost:5000/api/calendar-events/${id}`, {
+        if (!token) throw new Error("Authentication token is missing.");
+        const res = await fetch(`${API_URL}/api/calendar-events/${id}`, {
           method: 'DELETE',
           headers: { 'x-auth-token': token },
         });
         if (!res.ok) {
-          throw new Error('Failed to delete event');
+          // Try to get error message from backend
+          let errorMsg = 'Failed to delete event';
+          try {
+              const errData = await res.json();
+              errorMsg = errData.msg || errorMsg;
+          } catch(e) { /* Ignore if response not JSON */ }
+          throw new Error(errorMsg);
         }
-        onEventChange();
+        onEventChange(); // Triggers a refetch
       } catch (err) {
         alert(err.message);
       }
     }
   };
 
-  // 3. Use className
   return (
     <div className="events-container">
       <button onClick={() => setIsOpen(!isOpen)} className="events-toggle-btn">
@@ -81,56 +102,64 @@ function CalendarEvents({ events, weekStart, onEventChange }) {
               value={date}
               onChange={onChange}
               className="events-input" // Use className
+              required // Add required attribute
             />
             <input
               type="text"
               name="title"
-              placeholder="Event Title (e.g., Mandatory Meeting)"
+              placeholder="Event Title" // Simplified placeholder
               value={title}
               onChange={onChange}
               className="events-input" // Use className
+              required // Add required attribute
             />
             <select
               name="type"
               value={type}
               onChange={onChange}
               className="events-select" // Use className
+              required // Add required attribute
             >
               <option value="MEETING">Meeting</option>
               <option value="MANDATORY">Mandatory</option>
               <option value="PTO_RESTRICTED">PTO Restricted</option>
             </select>
             <button type="submit" className="events-add-btn">
-              Add
+              Add Event {/* More specific text */}
             </button>
           </form>
 
           <h4 className="events-list-header">Events This Week</h4>
-          <ul className="events-list">
-            {events.map((event) => (
-              <li key={event._id} className="events-item">
-                <span>
-                  <strong>
-                    {new Date(event.date).toLocaleDateString('en-US', {
-                      weekday: 'short',
-                      month: 'short',
-                      day: 'numeric',
-                      timeZone: 'UTC',
-                    })}
-                    :
-                  </strong>
-                  {' '}{event.title} ({event.type})
-                </span>
-                <button
-                  onClick={() => handleDelete(event._id)}
-                  className="events-remove-btn" // Use className
-                >
-                  Delete
-                </button>
-              </li>
-            ))}
-            {events.length === 0 && <li className="events-none">No events found for this week.</li>}
-          </ul>
+          {/* Check if events is an array before mapping */}
+          {Array.isArray(events) && events.length > 0 ? (
+            <ul className="events-list">
+              {events.map((event) => (
+                <li key={event._id} className="events-item">
+                  <span>
+                    <strong>
+                      {/* Ensure date formatting handles potential invalid dates gracefully */}
+                      {event.date ? new Date(event.date).toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric',
+                        timeZone: 'UTC', // Important for consistency
+                      }) : 'Invalid Date'}
+                      :
+                    </strong>
+                    {' '}{event.title} ({event.type})
+                  </span>
+                  <button
+                    onClick={() => handleDelete(event._id)}
+                    className="events-remove-btn" // Use className
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+             <p className="events-none">No events found for this week.</p> // Use <p> instead of <li>
+          )}
         </div>
       )}
     </div>

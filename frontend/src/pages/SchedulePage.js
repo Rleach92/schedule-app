@@ -6,8 +6,12 @@ import WeekNavigator from '../components/schedule/WeekNavigator';
 import ScheduleDisplay from '../components/schedule/ScheduleDisplay';
 import ScheduleUploader from '../components/schedule/ScheduleUploader';
 import CalendarEvents from '../components/schedule/CalendarEvents';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Ensure useNavigate is imported
 
+// Define the base URL for the API
+const API_URL = 'https://my-schedule-api-q374.onrender.com';
+
+// Styles object (if you are using CSS files, this might be empty or removed, otherwise keep your styles)
 const styles = {
   container: {
     width: '90%',
@@ -15,174 +19,175 @@ const styles = {
     margin: '20px auto',
     fontFamily: 'Arial, sans-serif',
   },
+  // Add other inline styles if you didn't convert everything to CSS
 };
 
 function SchedulePage() {
-  const { user, token } = useAuth();
+  const { user, token } = useAuth(); // Ensure user and token are correctly destructured
   const [weekStart, setWeekStart] = useState(getWeekStartingFriday());
   const [schedule, setSchedule] = useState(null);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Ensure navigate is initialized
 
-  // useCallback still memoizes the function based on weekStart and token
+  // Use useCallback to memoize fetchWeekData based on weekStart and token
   const fetchWeekData = useCallback(async () => {
-    console.log(`fetchWeekData called for week starting: ${weekStart.toISOString()}`); // LOG 1
-    // Don't reset state here if it's already fetching, prevent flicker
-    if (!loading) setLoading(true);
+    // console.log(`fetchWeekData called for week starting: ${weekStart.toISOString()}`);
+    setLoading(true); // Always set loading true at the start of fetch
     setError('');
-    // Only clear schedule/events if we are *sure* we are starting a fresh fetch
-    // setSchedule(null);
-    // setEvents([]);
+    // Reset state before fetching
+    setSchedule(null);
+    setEvents([]);
 
     const dateString = toYYYYMMDD(weekStart);
 
     try {
-      console.log('Fetching schedule and events...'); // LOG 2
-      // Add a check for token existence before fetching
+      // console.log('Fetching schedule and events...');
       if (!token) {
           throw new Error("Authentication token is missing.");
       }
 
       const [scheduleRes, eventsRes] = await Promise.all([
-        fetch(
-          `http://localhost:5000/api/schedules/week?date=${dateString}`,
-          { headers: { 'x-auth-token': token } }
-        ),
-        fetch(
-          `http://localhost:5000/api/calendar-events/week?weekStart=${dateString}`,
-          { headers: { 'x-auth-token': token } }
-        ),
+        fetch(`${API_URL}/api/schedules/week?date=${dateString}`, { headers: { 'x-auth-token': token } }),
+        fetch(`${API_URL}/api/calendar-events/week?weekStart=${dateString}`, { headers: { 'x-auth-token': token } })
       ]);
 
-      console.log(`Schedule Response Status: ${scheduleRes.status}`); // LOG 3
-      console.log(`Events Response Status: ${eventsRes.status}`);   // LOG 4
+      // console.log(`Schedule Response Status: ${scheduleRes.status}`);
+      // console.log(`Events Response Status: ${eventsRes.status}`);
 
       // --- Process Schedule ---
-      let scheduleData = null; // Temp variable
+      let scheduleData = null;
       if (scheduleRes.status === 404) {
-        console.log('No schedule found for this week.'); // LOG 5
-        // Don't set error globally yet, just note no schedule
+        // console.log('No schedule found for this week.');
+        setError('No schedule has been uploaded for this week.'); // Set specific error
       } else if (!scheduleRes.ok) {
         let errorMsg = `Failed to fetch schedule (Status: ${scheduleRes.status})`;
         try { const errData = await scheduleRes.json(); errorMsg = errData.msg || errorMsg; } catch(e) {/* Ignore */}
-        throw new Error(errorMsg); // Throw if critical error
+        throw new Error(errorMsg);
       } else {
-        scheduleData = await scheduleRes.json(); // Assign to temp variable
-        console.log('Schedule data received:', scheduleData); // LOG 6
+        scheduleData = await scheduleRes.json();
+        // console.log('Schedule data received:', scheduleData);
+        setSchedule(scheduleData); // Set schedule state
+        // Clear error if schedule is found successfully
+        setError('');
       }
 
       // --- Process Events ---
-      let eventData = []; // Temp variable
+      let eventData = [];
       if (!eventsRes.ok) {
         let errorMsg = `Failed to fetch events (Status: ${eventsRes.status})`;
         try { const errData = await eventsRes.json(); errorMsg = errData.msg || errorMsg; } catch(e) {/* Ignore */}
-        throw new Error(errorMsg); // Throw if critical error
+        throw new Error(errorMsg);
       } else {
-        eventData = await eventsRes.json(); // Assign to temp variable
-        console.log('Events data received:', eventData); // LOG 7
+        eventData = await eventsRes.json();
+        // console.log('Events data received:', eventData);
+        setEvents(eventData); // Set events state
       }
 
-      // --- Update State AFTER both fetches (or 404) ---
-      setSchedule(scheduleData); // Will be null if 404
-      setEvents(eventData);
-      if (scheduleData) {
-          setError(''); // Clear error only if schedule is successfully found
-      } else {
-          setError('No schedule has been uploaded for this week.'); // Set specific error for 404
+      // If no schedule was found (404), ensure the error state reflects that specifically
+      if (scheduleRes.status === 404) {
+          setError('No schedule has been uploaded for this week.');
       }
 
 
     } catch (err) {
-      console.error('Error in fetchWeekData:', err); // LOG 8
-      setError(err.message); // Set error state
-      setSchedule(null); // Clear data on error
+      // console.error('Error in fetchWeekData:', err);
+      setError(err.message); // Set error state on any failure
+      setSchedule(null); // Ensure data is cleared on error
       setEvents([]);
     } finally {
-      console.log('Setting loading to false.'); // LOG 9
-      setLoading(false);
+      // console.log('Setting loading to false.');
+      setLoading(false); // Always set loading false at the end
     }
-  }, [weekStart, token, loading]); // Added loading to dependency array for useCallback
+  // Simplified dependencies for useCallback
+  }, [weekStart, token]);
 
-  // --- **** SIMPLIFIED useEffect DEPENDENCIES **** ---
-  // This effect now only runs when weekStart or token changes.
+  // useEffect now depends only on fetchWeekData (which depends on weekStart, token)
   useEffect(() => {
-    console.log("useEffect triggered: calling fetchWeekData (due to weekStart/token change)"); // LOG 10
+    // console.log("useEffect triggered: calling fetchWeekData");
     if (token) {
-        fetchWeekData();
+        fetchWeekData(); // Call the memoized function
     } else {
         setLoading(false);
         setError("You must be logged in to view the schedule.");
-        console.log("useEffect: No token found, skipping fetch.");
-        setSchedule(null); // Ensure data is cleared if token disappears
+        // console.log("useEffect: No token found, skipping fetch.");
+        setSchedule(null);
         setEvents([]);
     }
-  // Remove fetchWeekData from here, rely on weekStart/token
-  }, [weekStart, token]);
-  // --- **** END CHANGE **** ---
+  // This setup ensures fetchWeekData is stable unless weekStart/token change
+  }, [fetchWeekData, token]); // Add token here to refetch if token changes (e.g., login/logout)
 
 
   // Callback function for components to trigger a refetch
   const onDataChange = () => {
-    console.log("onDataChange called: triggering fetchWeekData"); // LOG 11
+    // console.log("onDataChange called: triggering fetchWeekData");
     fetchWeekData();
   };
 
+  // Function to handle swap requests
   const handleSwapRequest = async (shiftA, shiftB) => {
-    // ... (swap request logic - unchanged) ...
-    const formatShift = (s) => `${new Date(s.date).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} (${s.startTime}-${s.endTime})`;
+    const formatShift = (s) => `${new Date(s.date).toLocaleDateString('en-US', {month: 'short', day: 'numeric', timeZone: 'UTC'})} (${s.startTime}-${s.endTime})`; // Added timeZone
     const confirmMsg = `Are you sure you want to request this swap?\n\nYour Shift: ${formatShift(shiftA)}\nFor\n${shiftB.owner.name}'s Shift: ${formatShift(shiftB)}`;
     if (window.confirm(confirmMsg)) {
       try {
-        const payload = { shiftA: {...shiftA, id: shiftA._id }, shiftB: {...shiftB, id: shiftB._id }, targetUser: shiftB.owner };
-        const res = await fetch('http://localhost:5000/api/swaps', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-auth-token': token }, body: JSON.stringify(payload) });
+        if (!token) throw new Error("Authentication token missing."); // Add token check
+        const payload = {
+            // Ensure properties match backend expectations
+            shiftA: { scheduleId: shiftA.scheduleId, dayKey: shiftA.dayKey, id: shiftA._id, date: shiftA.date, startTime: shiftA.startTime, endTime: shiftA.endTime },
+            shiftB: { scheduleId: shiftB.scheduleId, dayKey: shiftB.dayKey, id: shiftB._id, date: shiftB.date, startTime: shiftB.startTime, endTime: shiftB.endTime },
+            targetUser: shiftB.owner // Assuming owner contains _id and name
+        };
+        const res = await fetch(`${API_URL}/api/swaps`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-auth-token': token }, body: JSON.stringify(payload) });
         if (!res.ok) { const errData = await res.json(); throw new Error(errData.msg || 'Failed to create swap request'); }
-        alert('Swap request submitted!'); navigate('/swaps');
+        alert('Swap request submitted! You can check its status on the "Shift Swaps" page.');
+        navigate('/swaps'); // Redirect after successful submission
       } catch (err) { alert(err.message); }
     }
   };
 
   // --- Render Logic ---
-  console.log("Rendering SchedulePage. Loading:", loading, "Error:", error, "Schedule:", schedule ? 'Exists' : 'Null', "Events Count:", events.length); // LOG 12
+  // console.log("Rendering SchedulePage. Loading:", loading, "Error:", error, "Schedule:", schedule ? 'Exists' : 'Null', "Events Count:", events.length);
 
   return (
-    <div style={styles.container}>
+    // Use className if using CSS file, otherwise use style={styles.container}
+    <div className="schedule-page-container" style={styles.container}>
       <h2>Weekly Schedule</h2>
       <WeekNavigator weekStart={weekStart} onWeekChange={setWeekStart} />
 
-      {user.role === 'manager' && (
+      {/* Render manager components only if user is manager */}
+      {user?.role === 'manager' && ( // Added optional chaining for safety
         <>
           <CalendarEvents events={events} weekStart={weekStart} onEventChange={onDataChange} />
           <ScheduleUploader weekStart={weekStart} onScheduleUploaded={onDataChange} />
         </>
       )}
 
-      {/* Conditional Rendering based on state */}
+      {/* Conditional Rendering Logic */}
       {loading && <p>Loading schedule...</p>}
 
       {!loading && error && error !== 'No schedule has been uploaded for this week.' && (
-         <p style={{ color: 'red' }}>Error: {error}</p>
+         <p style={{ color: 'red' }}>Error: {error}</p> // Show critical errors
       )}
 
-      {/* Show schedule if it exists */}
+      {/* Show schedule display if schedule exists (and not loading/critical error) */}
       {!loading && schedule && (
         <ScheduleDisplay schedule={schedule} events={events} onSwapRequest={handleSwapRequest} />
       )}
 
-      {/* Show events-only display if no schedule found but events exist */}
-      {!loading && !schedule && events.length > 0 && (
+      {/* Show events-only display if no schedule found but events exist (and not loading/critical error) */}
+      {!loading && !schedule && events.length > 0 && error === 'No schedule has been uploaded for this week.' && (
          <ScheduleDisplay schedule={null} events={events} />
       )}
 
-       {/* Show "No schedule" message specifically */}
+       {/* Show "No schedule" message only if no schedule, no events, and the specific 404 error occurred */}
        {!loading && !schedule && events.length === 0 && error === 'No schedule has been uploaded for this week.' && (
          <p>No schedule has been uploaded for this week.</p>
        )}
 
-        {/* Fallback for no data and no specific 404 error */}
+       {/* Fallback for other errors when there's no data */}
        {!loading && !schedule && events.length === 0 && error && error !== 'No schedule has been uploaded for this week.' && (
-         <p style={{ color: 'red' }}>Error: {error}</p> // Show other errors here too
+          <p style={{ color: 'red' }}>Error: {error}</p>
        )}
 
     </div>

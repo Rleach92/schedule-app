@@ -4,15 +4,10 @@ import { useAuth } from '../context/AuthContext';
 import PtoRequestForm from '../components/pto/PtoRequestForm';
 import MyRequestsList from '../components/pto/MyRequestsList';
 import PendingRequests from '../components/pto/PendingRequests';
+import './PtoPage.css'; // Assuming you create this CSS file
 
-const styles = {
-  container: {
-    width: '90%',
-    maxWidth: '900px',
-    margin: '20px auto',
-    fontFamily: 'Arial, sans-serif',
-  },
-};
+// Define the base URL for the API
+const API_URL = 'https://my-schedule-api-q374.onrender.com';
 
 function PtoPage() {
   const { user, token } = useAuth();
@@ -21,20 +16,15 @@ function PtoPage() {
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
+    if (!token) return; // Don't fetch if not logged in
     setLoading(true);
     try {
-      // Fetch user's requests
-      const myRes = await fetch('http://localhost:5000/api/pto/my-requests', {
-        headers: { 'x-auth-token': token },
-      });
+      const myRes = await fetch(`${API_URL}/api/pto/my-requests`, { headers: { 'x-auth-token': token } }); // Use API_URL
       const myData = await myRes.json();
       setMyRequests(myData);
 
-      // If user is a manager, fetch pending requests
       if (user.role === 'manager') {
-        const pendingRes = await fetch('http://localhost:5000/api/pto/pending', {
-          headers: { 'x-auth-token': token },
-        });
+        const pendingRes = await fetch(`${API_URL}/api/pto/pending`, { headers: { 'x-auth-token': token } }); // Use API_URL
         const pendingData = await pendingRes.json();
         setPendingRequests(pendingData);
       }
@@ -45,30 +35,17 @@ function PtoPage() {
     }
   }, [token, user.role]);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  useEffect(() => { fetchData(); }, [fetchData]);
 
-  if (loading) {
-    return <div style={styles.container}>Loading...</div>;
-  }
+  if (loading) return <div className="pto-page-container">Loading...</div>; // Add className
 
   return (
-    <div style={styles.container}>
+    <div className="pto-page-container"> {/* Add className */}
       <h2>PTO & Time Off</h2>
-      
-      {/* 1. The Form (for everyone) */}
       <PtoRequestForm onPtoRequest={fetchData} />
-
-      {/* 2. Manager's View */}
-      {user.role === 'manager' && (
-        <PendingRequests requests={pendingRequests} onAction={fetchData} />
-      )}
-
-      {/* 3. Employee's List */}
+      {user.role === 'manager' && (<PendingRequests requests={pendingRequests} onAction={fetchData} />)}
       <MyRequestsList requests={myRequests} />
     </div>
   );
 }
-
 export default PtoPage;
