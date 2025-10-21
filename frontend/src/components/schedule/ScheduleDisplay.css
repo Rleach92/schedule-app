@@ -1,0 +1,173 @@
+/* frontend/src/components/schedule/ScheduleDisplay.css */
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: fixed;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.schedule-th,
+.schedule-td,
+.schedule-event-td {
+  border: 1px solid #dee2e6;
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.schedule-th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  width: 14.28%;
+}
+
+.schedule-event-td {
+  height: auto;
+  min-height: 40px;
+  background-color: #f8f9fa;
+}
+
+.schedule-td {
+  height: 140px;
+}
+
+.event-tag {
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 5px;
+  display: block;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Base styles for all shift types */
+.shift-base {
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+  position: relative;
+}
+
+.shift-base:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.shift-name {
+  font-weight: bold;
+  font-size: 0.95em;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shift-time {
+  font-size: 0.85em;
+  color: #495057;
+}
+
+/* --- Dynamic Shift Styles --- */
+/* (Duplicating base styles instead of using 'composes') */
+
+.shift-default {
+  /* Base styles duplicated */
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+  position: relative;
+  /* Specific styles */
+  background-color: #e7f3ff;
+  border: 1px solid #b3d7ff;
+  color: #004085;
+}
+.shift-default:hover { transform: translateY(-1px); box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+.shift-default .shift-time { color: #004085; }
+
+.shift-my {
+  /* Base styles duplicated */
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+  position: relative;
+  /* Specific styles */
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+.shift-my:hover { transform: translateY(-1px); box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+.shift-my .shift-time { color: #155724; }
+
+.shift-selected {
+  /* Base styles duplicated */
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+  position: relative;
+  /* Specific styles */
+  background-color: #007bff;
+  border: 2px solid #0056b3;
+  color: white;
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+.shift-selected:hover { transform: translateY(-1px) scale(1.02); box-shadow: 0 4px 8px rgba(0,0,0,0.15); } /* Keep hover consistent */
+.shift-selected .shift-name,
+.shift-selected .shift-time { color: white; }
+
+.shift-targetable {
+  /* Base styles duplicated */
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  cursor: crosshair; /* Different cursor */
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+  position: relative;
+  /* Specific styles */
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+}
+.shift-targetable:hover { transform: translateY(-1px); box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+.shift-targetable .shift-time { color: #856404; }
+
+.shift-disabled {
+  /* Base styles duplicated */
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  cursor: not-allowed; /* Different cursor */
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+  position: relative;
+  /* Specific styles */
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  color: #6c757d;
+  opacity: 0.7;
+}
+/* No hover effects for disabled */
+.shift-disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+.shift-disabled .shift-time { color: #6c757d; }

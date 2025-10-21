@@ -1,0 +1,142 @@
+/* frontend/src/components/schedule/ScheduleUploader.css */
+
+.uploader-container {
+  padding: 20px;
+  background-color: #fdfdfd;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  margin-bottom: 25px;
+}
+
+.uploader-toggle-btn {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  transition: background-color 0.2s ease;
+}
+
+.uploader-toggle-btn:hover {
+  background-color: #5a6268;
+}
+
+
+
+.uploader-day-box {
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+}
+
+.uploader-day-header {
+  font-size: 1.15em;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #495057;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+.uploader-shift-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #e9ecef;
+}
+
+.uploader-shift-row:last-child {
+  border-bottom: none;
+  margin-bottom: 5px;
+}
+
+.uploader-select,
+.uploader-input {
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  font-size: 14px;
+}
+
+.uploader-select {
+  min-width: 150px;
+  flex-grow: 1;
+}
+
+.uploader-input[type="time"] {
+  min-width: 100px;
+}
+
+.uploader-shift-row span {
+  color: #6c757d;
+}
+
+.uploader-remove-btn {
+  padding: 6px 12px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.2s ease;
+  margin-left: auto;
+}
+
+.uploader-remove-btn:hover {
+  background-color: #c82333;
+}
+
+.uploader-add-btn {
+  padding: 8px 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.uploader-add-btn:hover {
+  background-color: #0056b3;
+}
+
+.uploader-submit-btn {
+  padding: 12px 25px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: background-color 0.2s ease;
+}
+
+.uploader-submit-btn:hover {
+  background-color: #218838;
+}
+
+.uploader-error-text {
+  color: #721c24;
+  font-weight: bold;
+  padding: 12px 15px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  margin: 10px 0;
+}

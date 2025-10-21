@@ -1,0 +1,129 @@
+/* frontend/src/pages/MonthlySchedulePage.css */
+
+.monthly-schedule-container {
+  width: 95%;
+  max-width: 1400px; /* Allow wider view */
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+}
+
+.monthly-schedule-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #343a40;
+}
+
+.month-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.month-navigation button {
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.month-navigation button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: #dc3545;
+  text-align: center;
+}
+
+/* Calendar Table Styles */
+.calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Equal columns */
+  border: 1px solid #dee2e6;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.calendar-table th {
+  background-color: #f8f9fa;
+  padding: 10px;
+  text-align: center;
+  font-weight: 600;
+  color: #495057;
+  border: 1px solid #dee2e6;
+}
+
+.calendar-day {
+  border: 1px solid #dee2e6;
+  vertical-align: top;
+  height: 120px; /* Fixed height for cells */
+  position: relative; /* For positioning day number */
+  padding: 5px;
+  overflow: hidden; /* Hide overflow within the cell */
+}
+
+.calendar-day.empty {
+  background-color: #f8f9fa; /* Lighter background for empty cells */
+}
+
+.day-number {
+  font-size: 0.85em;
+  font-weight: bold;
+  color: #6c757d;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.day-content {
+  margin-top: 20px; /* Space below day number */
+  max-height: 95px; /* Limit content height */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+  /* Basic scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #ced4da #f8f9fa;
+}
+
+/* Event Tag Styling (consistent with ScheduleDisplay) */
+.event-tag {
+  padding: 3px 6px; /* Smaller padding */
+  border-radius: 3px;
+  font-size: 0.75em; /* Smaller text */
+  font-weight: 500;
+  color: white;
+  margin-bottom: 3px;
+  display: block;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.event-mandatory { background-color: #dc3545; }
+.event-meeting { background-color: #007bff; }
+.event-pto_restricted { background-color: #6c757d; }
+
+/* Shift Entry Styling */
+.shift-entry {
+  background-color: #e7f3ff;
+  border: 1px solid #b3d7ff;
+  border-radius: 3px;
+  padding: 3px 5px;
+  font-size: 0.8em;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shift-user {
+  font-weight: 500;
+  color: #004085;
+}
+
+/* Optional: Hide shift times if too cluttered */
+/* .shift-times { display: none; } */

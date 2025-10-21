@@ -1,0 +1,114 @@
+/* frontend/src/components/swaps/MySwapRequests.css */
+
+.my-swaps-container {
+  padding: 25px;
+  background-color: #f8f9fa; /* Consistent light background */
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  margin-bottom: 30px;
+}
+
+.my-swaps-container h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #343a40;
+}
+
+.my-swaps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.my-swaps-item {
+  padding: 15px 20px; /* More padding */
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  margin-bottom: 12px; /* More space */
+  background-color: #ffffff;
+}
+
+.my-swaps-item p {
+  margin: 0 0 10px 0; /* Consistent spacing */
+  font-size: 14px;
+  line-height: 1.5; /* Improve readability */
+  color: #495057;
+}
+
+.my-swaps-item p:last-child {
+  margin-bottom: 0; /* No margin on the last paragraph */
+}
+
+.my-swaps-item strong {
+  color: #343a40; /* Darker strong text */
+}
+
+.my-swaps-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px; /* Space above buttons */
+}
+
+.my-swaps-btn {
+  padding: 6px 12px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.my-swaps-accept-btn {
+  /* Inherit base button styles manually */
+  padding: 6px 12px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  /* Specific styles */
+  background-color: #28a745;
+}
+.my-swaps-accept-btn:hover {
+  background-color: #218838;
+}
+
+.my-swaps-deny-btn {
+  /* Inherit base button styles manually */
+  padding: 6px 12px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  /* Specific styles */
+  background-color: #dc3545;
+}
+.my-swaps-deny-btn:hover {
+  background-color: #c82333;
+}
+
+/* Status Text Styles */
+.my-swaps-status {
+  font-weight: bold;
+  font-size: 14px; /* Match paragraph font size */
+}
+.my-swaps-status-pending_target { color: #007bff; }
+.my-swaps-status-pending_manager { color: #ffc107; }
+.my-swaps-status-approved { color: #28a745; }
+.my-swaps-status-denied { color: #dc3545; } /* Unified denied color */
+
+.my-swaps-none {
+  color: #6c757d;
+  font-style: italic;
+  font-size: 14px;
+}

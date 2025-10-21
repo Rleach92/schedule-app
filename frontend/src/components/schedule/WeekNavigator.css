@@ -1,0 +1,33 @@
+/* frontend/src/components/schedule/WeekNavigator.css */
+
+.week-navigator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px; /* Increased padding */
+  background-color: #e9ecef; /* Lighter background */
+  border-radius: 6px; /* Slightly smaller radius */
+  margin-bottom: 25px; /* More space below */
+  border: 1px solid #ced4da; /* Add a subtle border */
+}
+
+.week-navigator-button {
+  padding: 8px 18px; /* Adjusted padding */
+  font-size: 16px; /* Slightly smaller font */
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.week-navigator-button:hover {
+  background-color: #0056b3;
+}
+
+.week-navigator-date-display {
+  font-size: 1.25em; /* Slightly larger */
+  font-weight: 600; /* Semi-bold */
+  color: #495057; /* Darker text */
+}

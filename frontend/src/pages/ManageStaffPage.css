@@ -1,0 +1,78 @@
+/* frontend/src/pages/ManageStaffPage.css */
+
+.manage-staff-container {
+  width: 90%;
+  max-width: 900px; /* Adjust as needed */
+  margin: 30px auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.manage-staff-container h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #343a40;
+}
+
+.manage-staff-container p {
+  margin-bottom: 25px;
+  color: #6c757d;
+  font-size: 0.95em;
+}
+
+.error-message {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.staff-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.staff-table th,
+.staff-table td {
+  border: 1px solid #dee2e6;
+  padding: 12px 15px; /* Consistent padding */
+  text-align: left;
+  font-size: 14px;
+}
+
+.staff-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+}
+
+.staff-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa; /* Zebra striping */
+}
+
+.staff-table td:last-child {
+  text-align: center; /* Center align action buttons */
+}
+
+.delete-button {
+  padding: 6px 12px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.2s ease;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.self-delete-disabled {
+  font-size: 13px;
+  color: #6c757d;
+  font-style: italic;
+}

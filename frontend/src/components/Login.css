@@ -1,0 +1,65 @@
+/* frontend/src/components/Login.css */
+
+.login-container {
+  width: 320px; /* Adjusted width */
+  margin: 60px auto; /* More margin top */
+  padding: 30px; /* More padding */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Softer shadow */
+  background-color: #ffffff;
+}
+
+.login-header {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 25px; /* More space below header */
+  color: #333; /* Darker header color */
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px; /* More space between inputs */
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid #ccc; /* Slightly darker border */
+  font-size: 16px;
+}
+
+/* Style adjustments for focus state */
+.login-input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.2s ease; /* Smooth transition on hover */
+}
+
+.login-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.login-link-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; /* More space above links */
+  font-size: 14px;
+}

@@ -1,0 +1,71 @@
+/* frontend/src/components/pto/MyRequestsList.css */
+
+.my-requests-container {
+  margin-top: 30px; /* Add space above */
+}
+
+.my-requests-container h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #343a40;
+}
+
+.my-requests-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.my-requests-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px; /* Consistent padding */
+  border: 1px solid #e9ecef; /* Lighter border */
+  border-radius: 4px;
+  margin-bottom: 8px;
+  background-color: #ffffff;
+  font-size: 14px;
+}
+
+.my-requests-item div { /* Target the div containing date and reason */
+  flex-grow: 1;
+  margin-right: 15px; /* Space before status */
+}
+
+.my-requests-item strong {
+  margin-right: 8px; /* Space after date */
+}
+
+.my-requests-item .reason-text { /* Add class for reason */
+  color: #6c757d; /* Gray text */
+  font-style: italic;
+}
+
+.my-requests-status {
+  padding: 5px 10px; /* Adjusted padding */
+  border-radius: 12px; /* Pill shape */
+  font-size: 0.85em; /* Smaller status text */
+  font-weight: 600; /* Semi-bold */
+  color: white;
+  text-transform: capitalize; /* Capitalize status (Pending -> Pending) */
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+/* Specific status colors */
+.my-requests-status-pending {
+  background-color: #ffc107;
+  color: #343a40; /* Dark text on yellow */
+}
+.my-requests-status-approved {
+  background-color: #28a745;
+}
+.my-requests-status-denied {
+  background-color: #dc3545;
+}
+
+.my-requests-none {
+  color: #6c757d;
+  font-style: italic;
+  font-size: 14px;
+}

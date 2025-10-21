@@ -1,0 +1,89 @@
+/* frontend/src/components/pto/PendingRequests.css */
+
+.pending-requests-container {
+  padding: 25px; /* More padding */
+  background-color: #fffbe6; /* Keep yellow background */
+  border: 1px solid #ffeeba; /* Match yellow border */
+  border-radius: 6px;
+  margin-top: 30px; /* Space above */
+  margin-bottom: 30px; /* Space below */
+}
+
+.pending-requests-container h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #664d03; /* Darker yellow text */
+}
+
+.pending-requests-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pending-requests-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  background-color: #ffffff;
+  font-size: 14px;
+}
+
+.pending-requests-item div:first-child { /* Target the info div */
+  flex-grow: 1;
+  margin-right: 15px;
+}
+
+.pending-requests-item strong {
+  margin-right: 5px; /* Space after name */
+}
+
+.pending-requests-item .reason-text { /* Consistent class for reason */
+  color: #6c757d;
+  font-style: italic;
+  display: block; /* Put reason on new line */
+  margin-top: 3px;
+}
+
+.pending-requests-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.pending-requests-btn {
+  padding: 6px 12px; /* Smaller buttons */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px; /* Smaller text */
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.pending-requests-approve-btn {
+  color-scheme: pending-requests-btn; /* Inherit base button styles */
+  background-color: #28a745;
+}
+.pending-requests-approve-btn:hover {
+  background-color: #218838;
+}
+
+.pending-requests-deny-btn {
+  color-scheme: pending-requests-btn;
+  background-color: #dc3545;
+}
+.pending-requests-deny-btn:hover {
+  background-color: #c82333;
+}
+
+.pending-requests-none {
+  color: #6c757d;
+  font-style: italic;
+  font-size: 14px;
+}
