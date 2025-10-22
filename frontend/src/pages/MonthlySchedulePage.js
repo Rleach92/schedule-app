@@ -1,4 +1,5 @@
 // frontend/src/pages/MonthlySchedulePage.js
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './MonthlySchedulePage.css';
@@ -10,10 +11,10 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December"];
 const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-function MonthlySchedulePage() {
+// ADD globalRefreshKey PROP
+function MonthlySchedulePage({ globalRefreshKey }) {
   const { token } = useAuth();
   
-  // Keep required state variables
   const [currentDate, setCurrentDate] = useState(new Date()); 
   const [monthData, setMonthData] = useState({ schedules: [], events: [] });
   const [loading, setLoading] = useState(true);
@@ -31,7 +32,7 @@ function MonthlySchedulePage() {
       });
       if (!res.ok) throw new Error('Failed to fetch monthly data');
       const data = await res.json();
-      setMonthData(data); // monthData is used here
+      setMonthData(data);
     } catch (err) {
       setError(err.message); setMonthData({ schedules: [], events: [] });
     } finally {
@@ -39,28 +40,56 @@ function MonthlySchedulePage() {
     }
   }, [year, month, token]);
 
-  useEffect(() => { fetchMonthData(); }, [fetchMonthData]);
+  // FIX: Add globalRefreshKey to the dependency array
+  useEffect(() => { 
+    fetchMonthData(); 
+  }, [fetchMonthData, globalRefreshKey]); // <-- FORCES RE-FETCH ON GLOBAL UPDATE
 
-  // --- Calendar Grid Generation Logic (Uses monthData) ---
+  // --- Calendar Grid Generation Logic (with mapping fix from previous step) ---
   const generateCalendarGrid = () => {
     const daysInMonth = new Date(year, month, 0).getDate();
     const firstDayOfMonth = new Date(year, month - 1, 1).getDay(); 
 
-    // Process schedules and events into a lookup map by date string (YYYY-MM-DD)
     const dataByDate = {};
     
-    // Ensure monthData.schedules is used
-    monthData.schedules.forEach(schedule => { /* ... existing logic using monthData.schedules ... */ });
+    // Day offset map (required for mapping shifts to a date string)
+    const dayKeyToOffset = { 'friday': 0, 'saturday': 1, 'sunday': 2, 'monday': 3, 'tuesday': 4, 'wednesday': 5, 'thursday': 6 };
     
-    // Ensure monthData.events is used
-     monthData.events.forEach(event => { /* ... existing logic using monthData.events ... */ });
+    // Process Schedules
+    monthData.schedules.forEach(schedule => {
+        for (const dayKey in schedule.days) {
+            if (schedule.days.hasOwnProperty(dayKey)) {
+                const scheduleDate = new Date(schedule.weekStarting);
+                const offset = dayKeyToOffset[dayKey];
+                
+                if (offset !== undefined) {
+                    const currentDay = new Date(scheduleDate);
+                    currentDay.setUTCDate(currentDay.getUTCDate() + offset); 
+                    const currentDateStr = `${currentDay.getUTCFullYear()}-${String(currentDay.getUTCMonth() + 1).padStart(2, '0')}-${String(currentDay.getUTCDate()).padStart(2, '0')}`;
+                    
+                    if (!dataByDate[currentDateStr]) {
+                        dataByDate[currentDateStr] = { shifts: [], events: [] };
+                    }
+                    dataByDate[currentDateStr].shifts.push(...schedule.days[dayKey]);
+                }
+            }
+        }
+    });
 
-    // ... (rest of grid generation logic, which uses dataByDate) ...
-    // Placeholder to satisfy the linter check
+    // Process Events
+    monthData.events.forEach(event => {
+        const eventDateStr = event.date.substring(0, 10); 
+        
+        if (!dataByDate[eventDateStr]) {
+            dataByDate[eventDateStr] = { shifts: [], events: [] };
+        }
+        dataByDate[eventDateStr].events.push(event);
+    });
+    
+    // Grid Generation
     let dayCounter = 1;
     let grid = [];
 
-    // ... (Your loop logic remains here) ...
      for (let week = 0; week < 6; week++) { 
         const weekRow = [];
         for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
@@ -99,10 +128,10 @@ function MonthlySchedulePage() {
 
   // --- Navigation Functions (Use setCurrentDate) ---
   const goToPreviousMonth = () => {
-    setCurrentDate(new Date(year, month - 2, 1)); // setCurrentDate is used here
+    setCurrentDate(new Date(year, month - 2, 1));
   };
   const goToNextMonth = () => {
-    setCurrentDate(new Date(year, month, 1)); // setCurrentDate is used here
+    setCurrentDate(new Date(year, month, 1));
   };
   // --------------------------
 
@@ -125,7 +154,7 @@ function MonthlySchedulePage() {
             </tr>
           </thead>
           <tbody>
-            {generateCalendarGrid()} {/* monthData is used indirectly here */}
+            {generateCalendarGrid()}
           </tbody>
         </table>
       )}
