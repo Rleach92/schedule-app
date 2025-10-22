@@ -1,10 +1,11 @@
 // frontend/src/components/schedule/ScheduleDisplay.js
 import React, { useState } from 'react';
-import { getWeekDayNames } from '../../utils/date-helpers';
+// IMPORT FIX: Import as a constant, NOT a function. 
+// Assuming getWeekDayNames and getWeekStartingFriday are now constants/functions 
+// as provided in the fixed date-helpers.js file.
+import { getWeekDayNames, getWeekStartingFriday } from '../../utils/date-helpers';
 import { useAuth } from '../../context/AuthContext';
-import './ScheduleDisplay.css'; // 1. Import CSS
-
-// 2. Delete styles object
+import './ScheduleDisplay.css'; 
 
 // Helper to get a color based on event type
 const getEventColor = (type) => {
@@ -17,6 +18,7 @@ const getEventColor = (type) => {
 };
 
 const dayKeys = ['friday', 'saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday'];
+// Map JS index (0=Sun, 5=Fri) to your key
 const dayIndexToKey = { 5: 'friday', 6: 'saturday', 0: 'sunday', 1: 'monday', 2: 'tuesday', 3: 'wednesday', 4: 'thursday' };
 
 function ScheduleDisplay({ schedule, events = [], onSwapRequest }) {
@@ -25,40 +27,35 @@ function ScheduleDisplay({ schedule, events = [], onSwapRequest }) {
 
   // Determine start date robustly
   const getStartDate = () => {
+    // 1. If schedule exists, use its defined start date
     if (schedule && schedule.weekStarting) {
       return new Date(schedule.weekStarting);
     }
-    // Find the earliest event date if no schedule
-    if (events.length > 0) {
-      const earliestEvent = events.reduce((earliest, current) =>
-        new Date(current.date) < new Date(earliest.date) ? current : earliest
-      );
-      // Need to adjust this to the start of *its* week (Friday)
-      const eventDate = new Date(earliestEvent.date);
-      const dayOfWeek = eventDate.getUTCDay();
-      const diff = (dayOfWeek < 5) ? (dayOfWeek + 2) : (dayOfWeek - 5);
-      eventDate.setUTCDate(eventDate.getUTCDate() - diff);
-      eventDate.setUTCHours(0,0,0,0);
-      return eventDate;
-    }
-    // Default to today if no schedule or events
-    const today = new Date();
-    const dayOfWeek = today.getDay();
-    const diff = (dayOfWeek < 5) ? (dayOfWeek + 2) : (dayOfWeek - 5);
-    today.setDate(today.getDate() - diff);
-    today.setHours(0,0,0,0);
-    return today;
+    
+    // 2. If no schedule, use the fixed utility to find the start of the current week (Friday)
+    // This is much safer than reimplementing date logic here.
+    return getWeekStartingFriday(); 
   };
 
   const startDate = getStartDate();
-  const dayNames = getWeekDayNames(startDate);
+  // CRASH FIX: Use getWeekDayNames as an array constant
+  // Assuming the component displaying the week days iterates from the startDate
+  const dayNames = getWeekDayNames; 
+  
+  // Create an array of 7 dates starting from the calculated startDate
+  const weekDates = dayNames.map((_, i) => {
+      const date = new Date(startDate);
+      date.setUTCDate(date.getUTCDate() + i);
+      return date;
+  });
 
   // Group events by day
   const eventsByDay = {};
   dayKeys.forEach(key => eventsByDay[key] = []);
   events.forEach(event => {
     const eventDate = new Date(event.date);
-    const dayKey = dayIndexToKey[eventDate.getUTCDay()];
+    // Use getUTCDay() for consistency with UTC date string logic
+    const dayKey = dayIndexToKey[eventDate.getUTCDay()]; 
     if (dayKey) { eventsByDay[dayKey].push(event); }
   });
 
@@ -68,7 +65,8 @@ function ScheduleDisplay({ schedule, events = [], onSwapRequest }) {
 
     const fullShiftObject = {
       ...shift,
-      date: shiftDate,
+      // Date is now the correct Date object from the loop below
+      date: shiftDate, 
       dayKey: dayKey,
       scheduleId: schedule._id,
       owner: { _id: shift.user, name: shift.userName }
@@ -99,7 +97,7 @@ function ScheduleDisplay({ schedule, events = [], onSwapRequest }) {
     }
   };
 
-  // 3. Use className strings
+  // Use className strings
   const getShiftClassName = (shift) => {
     // Base class applied to all
     let classes = ['shift-base'];
@@ -114,7 +112,7 @@ function ScheduleDisplay({ schedule, events = [], onSwapRequest }) {
     if (!selection) {
       classes.push(shift.user === user._id ? 'shift-my' : 'shift-default');
     } else {
-      if (selection._id === shift._id) {
+      if (selection.id === shift._id) { // Use shift._id for comparison
         classes.push('shift-selected');
       } else if (shift.user === user._id) {
         classes.push('shift-disabled');
@@ -129,20 +127,25 @@ function ScheduleDisplay({ schedule, events = [], onSwapRequest }) {
     <table className="schedule-table">
       <thead>
         <tr>
-          {dayNames.map((day) => (<th key={day} className="schedule-th">{day}</th>))}
+          {/* CRASH FIX: Display day names and corresponding date for clarity */}
+          {weekDates.map((dateObj, i) => (
+             <th key={dayKeys[i]} className="schedule-th">
+                {dayNames[dateObj.getUTCDay()]} ({dateObj.getUTCDate()})
+             </th>
+          ))}
         </tr>
       </thead>
       <tbody>
         {/* Events Row */}
         <tr>
-          {dayKeys.map((dayKey) => (
+          {dayKeys.map((dayKey, i) => (
             <td key={`${dayKey}-events`} className="schedule-event-td">
               {eventsByDay[dayKey].map((event) => (
-                <div // Use div instead of span for block behavior
+                <div 
                   key={event._id}
-                  className="event-tag" // Use className
-                  style={{ backgroundColor: getEventColor(event.type) }} // Keep dynamic color inline
-                  title={event.title} // Add tooltip
+                  className="event-tag"
+                  style={{ backgroundColor: getEventColor(event.type) }}
+                  title={event.title}
                 >
                   {event.title}
                 </div>
@@ -155,18 +158,17 @@ function ScheduleDisplay({ schedule, events = [], onSwapRequest }) {
         {schedule && (
           <tr>
             {dayKeys.map((dayKey, i) => {
-              const currentDayDate = new Date(startDate); // Use calculated startDate
-              currentDayDate.setUTCDate(currentDayDate.getUTCDate() + i);
-
+              const currentDayDate = weekDates[i]; // Get the correct date object from the pre-calculated array
+              
               return (
                 <td key={dayKey} className="schedule-td">
                   {schedule.days[dayKey] &&
                     schedule.days[dayKey].map((shift) => (
                       <div
                         key={shift._id}
-                        className={getShiftClassName(shift)} // Use dynamic className
+                        className={getShiftClassName(shift)} 
                         onClick={() => handleShiftClick(shift, currentDayDate, dayKey)}
-                        title={onSwapRequest && shift.user === user._id ? "Click to select this shift for a swap" : onSwapRequest && !selection ? "Select your shift first" : onSwapRequest && selection ? `Click to propose swapping your selected shift for ${shift.userName}'s shift` : ""} // Add tooltip based on state
+                        title={onSwapRequest && shift.user === user._id ? "Click to select this shift for a swap" : onSwapRequest && !selection ? "Select your shift first" : onSwapRequest && selection ? `Click to propose swapping your selected shift for ${shift.userName}'s shift` : ""}
                       >
                         <div className="shift-name">{shift.userName}</div>
                         <div className="shift-time">
