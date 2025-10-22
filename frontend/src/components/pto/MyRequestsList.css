@@ -1,7 +1,7 @@
 /* frontend/src/components/pto/MyRequestsList.css */
 
 .my-requests-container {
-  margin-top: 30px; /* Add space above */
+  margin-top: 30px; 
 }
 
 .my-requests-container h3 {
@@ -20,42 +20,42 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 15px; /* Consistent padding */
-  border: 1px solid #e9ecef; /* Lighter border */
+  padding: 12px 15px;
+  border: 1px solid #e9ecef;
   border-radius: 4px;
   margin-bottom: 8px;
   background-color: #ffffff;
   font-size: 14px;
 }
 
-.my-requests-item div { /* Target the div containing date and reason */
+.my-requests-item div {
   flex-grow: 1;
-  margin-right: 15px; /* Space before status */
+  margin-right: 15px;
 }
 
 .my-requests-item strong {
-  margin-right: 8px; /* Space after date */
+  margin-right: 8px; 
 }
 
-.my-requests-item .reason-text { /* Add class for reason */
-  color: #6c757d; /* Gray text */
+.my-requests-item .reason-text {
+  color: #6c757d; 
   font-style: italic;
 }
 
 .my-requests-status {
-  padding: 5px 10px; /* Adjusted padding */
-  border-radius: 12px; /* Pill shape */
-  font-size: 0.85em; /* Smaller status text */
-  font-weight: 600; /* Semi-bold */
+  padding: 5px 10px;
+  border-radius: 12px; 
+  font-size: 0.85em; 
+  font-weight: 600;
   color: white;
-  text-transform: capitalize; /* Capitalize status (Pending -> Pending) */
-  white-space: nowrap; /* Prevent wrapping */
+  text-transform: capitalize; 
+  white-space: nowrap; 
 }
 
 /* Specific status colors */
 .my-requests-status-pending {
   background-color: #ffc107;
-  color: #343a40; /* Dark text on yellow */
+  color: #343a40;
 }
 .my-requests-status-approved {
   background-color: #28a745;
@@ -68,4 +68,37 @@
   color: #6c757d;
   font-style: italic;
   font-size: 14px;
+}
+
+/* 📱 MOBILE FIX: Media Query for smaller screens (e.g., max width 500px) */
+@media (max-width: 500px) {
+    .my-requests-item {
+        /* Change from space-between to column layout */
+        flex-direction: column; 
+        align-items: flex-start;
+        padding: 10px 12px; /* Reduced vertical padding */
+        font-size: 13px; /* Slightly smaller text */
+    }
+
+    .my-requests-item div {
+        /* Ensure date/reason takes full width */
+        width: 100%;
+        margin-bottom: 5px; /* Add space below the date/reason */
+        margin-right: 0;
+        /* Allow the reason text to wrap if it's very long */
+        white-space: normal; 
+    }
+
+    .my-requests-item .reason-text {
+        /* Display reason on its own line */
+        display: block; 
+        margin-top: 2px;
+    }
+
+    .my-requests-status {
+        /* Ensure the status pill is legible at the bottom */
+        align-self: flex-end; /* Push status pill to the right */
+        font-size: 0.8em;
+        padding: 4px 8px;
+    }
 }

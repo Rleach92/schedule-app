@@ -81,93 +81,87 @@
   color: #495057;
 }
 
-/* --- Dynamic Shift Styles --- */
-/* (Duplicating base styles instead of using 'composes') */
-
+/* --- Dynamic Shift Styles --- (All remain the same for color/effect) */
 .shift-default {
-  /* Base styles duplicated */
-  border-radius: 4px;
-  padding: 8px 10px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
-  position: relative;
-  /* Specific styles */
-  background-color: #e7f3ff;
-  border: 1px solid #b3d7ff;
-  color: #004085;
+  border-radius: 4px; padding: 8px 10px; margin-bottom: 8px; cursor: pointer; transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out; position: relative;
+  background-color: #e7f3ff; border: 1px solid #b3d7ff; color: #004085;
 }
 .shift-default:hover { transform: translateY(-1px); box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
 .shift-default .shift-time { color: #004085; }
 
 .shift-my {
-  /* Base styles duplicated */
-  border-radius: 4px;
-  padding: 8px 10px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
-  position: relative;
-  /* Specific styles */
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
+  border-radius: 4px; padding: 8px 10px; margin-bottom: 8px; cursor: pointer; transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out; position: relative;
+  background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724;
 }
 .shift-my:hover { transform: translateY(-1px); box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
 .shift-my .shift-time { color: #155724; }
 
 .shift-selected {
-  /* Base styles duplicated */
-  border-radius: 4px;
-  padding: 8px 10px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
-  position: relative;
-  /* Specific styles */
-  background-color: #007bff;
-  border: 2px solid #0056b3;
-  color: white;
-  transform: scale(1.02);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  border-radius: 4px; padding: 8px 10px; margin-bottom: 8px; cursor: pointer; transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out; position: relative;
+  background-color: #007bff; border: 2px solid #0056b3; color: white; transform: scale(1.02); box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
-.shift-selected:hover { transform: translateY(-1px) scale(1.02); box-shadow: 0 4px 8px rgba(0,0,0,0.15); } /* Keep hover consistent */
-.shift-selected .shift-name,
-.shift-selected .shift-time { color: white; }
+.shift-selected:hover { transform: translateY(-1px) scale(1.02); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+.shift-selected .shift-name, .shift-selected .shift-time { color: white; }
 
 .shift-targetable {
-  /* Base styles duplicated */
-  border-radius: 4px;
-  padding: 8px 10px;
-  margin-bottom: 8px;
-  cursor: crosshair; /* Different cursor */
-  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
-  position: relative;
-  /* Specific styles */
-  background-color: #fff3cd;
-  border: 1px solid #ffeeba;
-  color: #856404;
+  border-radius: 4px; padding: 8px 10px; margin-bottom: 8px; cursor: crosshair; transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out; position: relative;
+  background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404;
 }
 .shift-targetable:hover { transform: translateY(-1px); box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
 .shift-targetable .shift-time { color: #856404; }
 
 .shift-disabled {
-  /* Base styles duplicated */
-  border-radius: 4px;
-  padding: 8px 10px;
-  margin-bottom: 8px;
-  cursor: not-allowed; /* Different cursor */
-  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
-  position: relative;
-  /* Specific styles */
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  color: #6c757d;
-  opacity: 0.7;
+  border-radius: 4px; padding: 8px 10px; margin-bottom: 8px; cursor: not-allowed; transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out; position: relative;
+  background-color: #f8f9fa; border: 1px solid #e9ecef; color: #6c757d; opacity: 0.7;
 }
-/* No hover effects for disabled */
-.shift-disabled:hover {
-  transform: none;
-  box-shadow: none;
-}
+.shift-disabled:hover { transform: none; box-shadow: none; }
 .shift-disabled .shift-time { color: #6c757d; }
+
+/* 📱 MOBILE FIX: Media Query for screens 768px and smaller */
+@media (max-width: 768px) {
+    /* 1. Ensure table has a fixed minimum width so it doesn't crush */
+    .schedule-table {
+        width: 700px; /* Force a readable minimum width */
+        table-layout: auto;
+    }
+    
+    /* 2. Reduce padding, font-size, and cell height */
+    .schedule-th,
+    .schedule-td,
+    .schedule-event-td {
+        padding: 8px 4px; /* Reduced padding */
+        font-size: 0.8em; /* Smaller font in cells */
+        min-width: 100px; /* Minimum width per day column */
+        height: 100px; /* Reduced cell height */
+    }
+    
+    .schedule-event-td {
+        min-height: 30px; /* Reduced min height for event row */
+    }
+    
+    /* 3. Compress Shift Elements */
+    .shift-base,
+    .shift-default,
+    .shift-my,
+    .shift-selected,
+    .shift-targetable,
+    .shift-disabled {
+        padding: 5px 6px; /* Reduced padding inside shifts */
+        margin-bottom: 5px;
+    }
+    
+    .shift-name {
+        font-size: 0.9em; /* Slightly reduced name size */
+        margin-bottom: 2px;
+    }
+    
+    .shift-time {
+        font-size: 0.75em; /* Smallest size for time display */
+    }
+
+    .event-tag {
+        font-size: 0.7em; /* Smallest size for event tags */
+        padding: 3px 5px;
+        margin-bottom: 3px;
+    }
+}

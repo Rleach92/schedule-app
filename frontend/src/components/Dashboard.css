@@ -3,20 +3,18 @@
 .dashboard-container {
   width: 90%;
   max-width: 800px;
-  margin: 40px auto; /* Adjusted margin */
-  padding: 30px; /* More padding */
+  margin: 40px auto;
+  padding: 30px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Float button removed, using flexbox on header instead */
-
 .dashboard-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Align items top */
+  align-items: flex-start;
   margin-bottom: 20px;
 }
 
@@ -31,12 +29,8 @@
   color: #555;
 }
 
-/* Reusing logout button style from Navbar.css */
-/* If Navbar.css is globally imported or if CSS Modules are configured */
-/* to allow composition from other files, you might reuse it. */
-/* For simplicity here, we'll redefine it slightly modified */
 .dashboard-logout-button {
-  padding: 10px 15px; /* Slightly adjusted padding */
+  padding: 10px 15px;
   font-size: 14px;
   background-color: #dc3545;
   color: white;
@@ -44,7 +38,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  white-space: nowrap; /* Prevent button text wrapping */
+  white-space: nowrap;
 }
 
 .dashboard-logout-button:hover {
@@ -54,10 +48,10 @@
 .dashboard-nav-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px; /* Consistent gap */
-  margin-top: 25px; /* More space */
-  padding-top: 20px; /* Space above buttons */
-  border-top: 1px solid #eee; /* Separator line */
+  gap: 15px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
 }
 
 .dashboard-nav-link {
@@ -70,8 +64,8 @@
   font-size: 16px;
   text-align: center;
   transition: background-color 0.2s ease;
-  flex-grow: 1; /* Allow buttons to grow */
-  min-width: 150px; /* Minimum width */
+  flex-grow: 1;
+  min-width: 150px;
 }
 
 .dashboard-nav-link:hover {
@@ -82,15 +76,64 @@
 
 .manager-panel {
   background-color: #fffbe6;
-  border: 1px solid #ffeeba; /* Lighter border */
-  color: #856404; /* Darker text for readability */
+  border: 1px solid #ffeeba;
+  color: #856404;
   padding: 20px;
   border-radius: 8px;
   margin-top: 30px;
-  clear: both; /* Ensure it clears floats if any were used */
+  clear: both;
 }
 
 .manager-panel h3 {
   margin-top: 0;
-  color: #664d03; /* Slightly darker header */
+  color: #664d03;
+}
+
+/* 📱 MOBILE FIX: Media Query for screens 600px and smaller */
+@media (max-width: 600px) {
+    .dashboard-container {
+        width: 100%; /* Full width */
+        margin: 20px auto; /* Reduced top margin */
+        padding: 15px; /* Reduced padding */
+        box-shadow: none; /* Lighter feel on mobile */
+        border: none; /* Remove border */
+    }
+
+    .dashboard-header {
+        /* Stack the welcome message and logout button vertically */
+        flex-direction: column;
+        align-items: stretch; /* Stretch items to full width */
+        margin-bottom: 15px;
+    }
+
+    .dashboard-welcome {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    .dashboard-welcome h2 {
+        font-size: 1.6em;
+    }
+
+    .dashboard-logout-button {
+        width: 100%; /* Make button full width for easy tap */
+        padding: 12px 15px;
+    }
+    
+    .dashboard-nav-container {
+        /* Force links to stack vertically and take full width */
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .dashboard-nav-link {
+        width: 100%; /* Links take full width */
+        min-width: unset;
+        padding: 15px 10px;
+    }
+
+    .manager-panel {
+        padding: 15px;
+        margin-top: 20px;
+    }
 }

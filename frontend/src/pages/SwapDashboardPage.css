@@ -1,10 +1,11 @@
 /* frontend/src/pages/SwapDashboardPage.css */
 
 .swap-dashboard-container {
-  width: 90%;
+  /* FIX: Ensure container is fully flexible on all screens */
+  width: 95%; 
   max-width: 900px;
-  margin: 30px auto;
-  padding: 0 15px;
+  margin: 30px auto; 
+  padding: 0 15px; 
   font-family: Arial, sans-serif;
 }
 
@@ -16,4 +17,32 @@
   font-size: 1.8em;
   padding-bottom: 15px;
   border-bottom: 2px solid #dee2e6;
+}
+
+/* 📱 MOBILE FIX: Media Query for smaller screens (e.g., max width 768px) */
+@media (max-width: 768px) {
+    .swap-dashboard-container {
+        width: 100%; /* Take up full width on mobile */
+        margin: 15px auto; /* Reduce top margin */
+        padding: 0 10px; /* Slight side padding */
+    }
+
+    .swap-dashboard-container h2 {
+        font-size: 1.5em; /* Slightly smaller header */
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+    }
+    
+    /* ⚠️ CRITICAL MOBILE INSTRUCTION ⚠️ */
+    /* The components inside this page (MySwapRequests and ManagerSwapQueue) 
+       contain tables of requests. For a usable mobile experience, you must 
+       ensure their specific CSS files (e.g., MySwapRequests.css) implement 
+       media queries to handle these wide tables. */
+       
+    /* Recommended Fixes for Nested Tables: */
+    
+    /* 1. Wrap tables in a div with overflow-x: auto; */
+    /* 2. Set a min-width on the table (e.g., min-width: 700px) */
+    /* 3. Reduce font-size and padding inside table cells (th/td) */
+    /* 4. Use white-space: nowrap; on key data fields to prevent wrapping. */
 }

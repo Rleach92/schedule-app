@@ -10,7 +10,8 @@ const API_URL = 'https://my-schedule-api-q374.onrender.com';
 const dayKeys = ["friday", "saturday", "sunday", "monday", "tuesday", "wednesday", "thursday"];
 const dayNames = ["Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
 
-function ScheduleUploader({ weekStart, onScheduleUploaded }) {
+// ADD onGlobalDataChange PROP
+function ScheduleUploader({ weekStart, onScheduleUploaded, onGlobalDataChange }) {
   const { token } = useAuth();
   
   // Keep needed state variables
@@ -99,6 +100,12 @@ function ScheduleUploader({ weekStart, onScheduleUploaded }) {
       const newSchedule = await res.json();
       alert('Schedule uploaded successfully!');
       onScheduleUploaded(newSchedule);
+      
+      // FIX: Call global refresh function to update Monthly Schedule Page
+      if (onGlobalDataChange) {
+        onGlobalDataChange();
+      }
+      
       setIsOpen(false);
     } catch (err) {
       alert(err.message);

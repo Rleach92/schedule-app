@@ -1,54 +1,83 @@
 /* frontend/src/components/pto/PtoRequestForm.css */
 
 .pto-form-container {
-  padding: 25px; /* More padding */
-  background-color: #f8f9fa; /* Light background */
+  padding: 25px; 
+  background-color: #f8f9fa;
   border: 1px solid #dee2e6;
   border-radius: 6px;
-  margin-bottom: 30px; /* More space below */
+  margin-bottom: 30px; 
 }
 
 .pto-form-container h3 {
   margin-top: 0;
-  margin-bottom: 20px; /* Space below header */
-  color: #343a40; /* Darker header */
+  margin-bottom: 20px;
+  color: #343a40;
 }
 
 .pto-form {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping */
-  gap: 15px; /* Space between elements */
+  flex-wrap: wrap;
+  gap: 15px;
   align-items: center;
 }
 
 .pto-form-input {
-  padding: 10px 12px; /* Adjusted padding */
+  padding: 10px 12px;
   border-radius: 4px;
   border: 1px solid #ced4da;
   font-size: 14px;
 }
 
 .pto-form-input[type="date"] {
-  min-width: 150px; /* Ensure date is wide enough */
+  min-width: 150px; 
 }
 
 .pto-form-input[type="text"] {
-  flex: 1 1 200px; /* Allow reason to grow */
+  flex: 1 1 200px;
   min-width: 150px;
 }
 
 .pto-form-submit-btn {
-  padding: 10px 18px; /* Adjusted padding */
+  padding: 10px 18px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 500; /* Medium weight */
+  font-weight: 500;
   transition: background-color 0.2s ease;
 }
 
 .pto-form-submit-btn:hover {
   background-color: #0056b3;
+}
+
+/* 📱 MOBILE FIX: Media Query for small phone screens (e.g., max width 550px) */
+@media (max-width: 550px) {
+    .pto-form-container {
+        padding: 15px; /* Reduce padding */
+    }
+
+    .pto-form {
+        flex-direction: column; /* Force elements to stack */
+        align-items: stretch; /* Stretch all elements to 100% width */
+        gap: 10px; /* Reduce gap between stacked items */
+    }
+
+    /* All form elements must take full width to stack properly */
+    .pto-form-input {
+        width: 100%;
+        min-width: 100% !important; /* Override all min-width rules */
+        box-sizing: border-box;
+    }
+    
+    .pto-form-input[type="text"] {
+        flex-basis: auto; /* Remove flex-grow limits */
+    }
+
+    .pto-form-submit-btn {
+        width: 100%;
+        padding: 12px 18px; /* Slightly larger padding for easy tapping */
+    }
 }

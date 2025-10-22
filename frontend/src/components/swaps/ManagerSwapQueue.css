@@ -2,8 +2,8 @@
 
 .manager-queue-container {
   padding: 25px;
-  background-color: #fffbe6; /* Keep yellow background */
-  border: 1px solid #ffeeba; /* Match yellow border */
+  background-color: #fffbe6;
+  border: 1px solid #ffeeba;
   border-radius: 6px;
   margin-top: 30px;
   margin-bottom: 30px;
@@ -102,4 +102,37 @@
   color: #6c757d;
   font-style: italic;
   font-size: 14px;
+}
+
+/* 📱 MOBILE FIX: Media Query for smaller screens (e.g., max width 600px) */
+@media (max-width: 600px) {
+    .manager-queue-container {
+        padding: 15px; /* Reduce container padding */
+    }
+
+    .manager-queue-item {
+        padding: 12px 15px; /* Reduce item padding */
+        font-size: 13px; /* Smaller text */
+    }
+
+    /* Target the paragraphs containing shift information */
+    .manager-queue-item p {
+        /* Ensure shift details can wrap */
+        white-space: normal;
+        margin-bottom: 8px;
+    }
+    
+    /* Force action buttons to take full width and stack */
+    .manager-queue-actions {
+        width: 100%;
+        margin-top: 10px;
+        gap: 5px;
+    }
+
+    .manager-queue-approve-btn,
+    .manager-queue-deny-btn {
+        flex: 1; /* Makes buttons fill equal width */
+        padding: 8px 6px; /* Larger vertical tap target */
+        font-size: 12px; /* Small font to ensure text fits */
+    }
 }

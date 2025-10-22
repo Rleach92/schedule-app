@@ -8,6 +8,7 @@ import ScheduleDisplay from '../components/schedule/ScheduleDisplay';
 import ScheduleUploader from '../components/schedule/ScheduleUploader';
 import CalendarEvents from '../components/schedule/CalendarEvents';
 import { useNavigate } from 'react-router-dom';
+// NOTE: Ensure your SchedulePage.css is imported for the media queries to work!
 
 // Define the base URL for the API
 const API_URL = 'https://my-schedule-api-q374.onrender.com';
@@ -18,7 +19,15 @@ const styles = {
     maxWidth: '1200px',
     margin: '20px auto',
     fontFamily: 'Arial, sans-serif',
+    // Added a slight overflow style to handle the schedule table on small screens
+    overflowX: 'auto', 
+    paddingBottom: '10px' // Space for horizontal scrollbar if needed
   },
+  // Ensure table container handles horizontal scroll
+  scheduleContainer: {
+    minWidth: '600px', // Prevents table from crushing too much
+    // On mobile, the CSS media queries should override this min-width or change display mode
+  }
 };
 
 // ADD onGlobalDataChange PROP
@@ -135,29 +144,32 @@ function SchedulePage({ onGlobalDataChange }) {
           />
         </>
       )}
+      
+      {/* WRAP SCHEDULE IN A MOBILE-FRIENDLY SCROLL CONTAINER */}
+      <div className="schedule-responsive-wrapper" style={styles.scheduleContainer}>
+        {/* Conditional Rendering Logic (remains the same) */}
+        {loading && <p>Loading schedule...</p>}
 
-      {/* Conditional Rendering Logic (remains the same) */}
-      {loading && <p>Loading schedule...</p>}
+        {!loading && error && error !== 'No schedule has been uploaded for this week.' && (
+           <p style={{ color: 'red' }}>Error: {error}</p>
+        )}
 
-      {!loading && error && error !== 'No schedule has been uploaded for this week.' && (
-         <p style={{ color: 'red' }}>Error: {error}</p>
-      )}
+        {!loading && schedule && (
+          <ScheduleDisplay schedule={schedule} events={events} onSwapRequest={handleSwapRequest} />
+        )}
 
-      {!loading && schedule && (
-        <ScheduleDisplay schedule={schedule} events={events} onSwapRequest={handleSwapRequest} />
-      )}
+        {!loading && !schedule && events.length > 0 && error === 'No schedule has been uploaded for this week.' && (
+           <ScheduleDisplay schedule={null} events={events} />
+        )}
 
-      {!loading && !schedule && events.length > 0 && error === 'No schedule has been uploaded for this week.' && (
-         <ScheduleDisplay schedule={null} events={events} />
-      )}
+         {!loading && !schedule && events.length === 0 && error === 'No schedule has been uploaded for this week.' && (
+           <p>No schedule has been uploaded for this week.</p>
+         )}
 
-       {!loading && !schedule && events.length === 0 && error === 'No schedule has been uploaded for this week.' && (
-         <p>No schedule has been uploaded for this week.</p>
-       )}
-
-       {!loading && !schedule && events.length === 0 && error && error !== 'No schedule has been uploaded for this week.' && (
-          <p style={{ color: 'red' }}>Error: {error}</p>
-       )}
+         {!loading && !schedule && events.length === 0 && error && error !== 'No schedule has been uploaded for this week.' && (
+            <p style={{ color: 'red' }}>Error: {error}</p>
+         )}
+      </div>
 
     </div>
   );

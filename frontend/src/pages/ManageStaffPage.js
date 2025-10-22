@@ -54,21 +54,26 @@ function ManageStaffPage() {
     <div className="manage-staff-container">
       <h2>Manage Staff Accounts</h2>
       <p>View and remove user accounts.</p>
-      <table className="staff-table">
-        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead>
-        <tbody>
-          {staffList.map((staffMember) => (
-            <tr key={staffMember._id}>
-              <td>{staffMember.name}</td><td>{staffMember.email}</td><td>{staffMember.role}</td>
-              <td>
-                {staffMember._id === user._id ? ( <span className="self-delete-disabled">Cannot delete self</span> ) : (
-                  <button className="delete-button" onClick={() => handleDeleteUser(staffMember._id, staffMember.name)}>Delete User</button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      
+      {/* 🐛 MOBILE FIX: Wrap the table in a container to enable horizontal scroll on small screens */}
+      <div className="staff-table-responsive-wrapper">
+        <table className="staff-table">
+          <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead>
+          <tbody>
+            {staffList.map((staffMember) => (
+              <tr key={staffMember._id}>
+                <td>{staffMember.name}</td><td>{staffMember.email}</td><td>{staffMember.role}</td>
+                <td>
+                  {staffMember._id === user._id ? ( <span className="self-delete-disabled">Cannot delete self</span> ) : (
+                    <button className="delete-button" onClick={() => handleDeleteUser(staffMember._id, staffMember.name)}>Delete User</button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
     </div>
   );
 }

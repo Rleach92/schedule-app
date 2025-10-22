@@ -1,0 +1,69 @@
+/* ScheduleDisplay.css or equivalent stylesheet */
+
+/* Default Desktop Styles for the Schedule Table */
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensures even column widths on desktop */
+}
+
+/* Base style for all table cells (desktop) */
+.schedule-th, .schedule-td {
+    padding: 8px 4px;
+    text-align: center;
+    border: 1px solid #ccc;
+    vertical-align: top;
+    min-width: 100px; /* Ensures a minimum readable width for the 7 columns */
+}
+
+/* Styles for mobile screens (e.g., max width 768px) */
+@media (max-width: 768px) {
+    /* The main table container should be allowed to scroll horizontally */
+    .schedule-responsive-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* for smooth scrolling on iOS */
+    }
+
+    /* Keep the table from crushing too much */
+    .schedule-table {
+        width: 700px; /* Force a width wider than the phone screen */
+        table-layout: auto; /* Allow columns to shrink based on content */
+    }
+    
+    /* Reduce padding and font sizes for a tighter display */
+    .schedule-th, .schedule-td {
+        padding: 5px 2px;
+        font-size: 0.85em;
+        min-width: 80px;
+    }
+
+    /* Reduce shift element size */
+    .shift-base {
+        padding: 2px;
+        margin-bottom: 2px;
+    }
+
+    /* Reduce font size for shift details */
+    .shift-name, .shift-time {
+        font-size: 0.75em;
+        line-height: 1.1;
+    }
+    
+    /* Make the WeekNavigator and Uploader buttons stack nicely */
+    .week-navigator-container, .uploader-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+/* Optional: Even smaller screen sizes (e.g., portrait phone view) */
+@media (max-width: 480px) {
+    .schedule-table {
+        width: 600px; /* Tighter overall width */
+    }
+    .schedule-th, .schedule-td {
+        min-width: 65px;
+        font-size: 0.8em;
+    }
+}

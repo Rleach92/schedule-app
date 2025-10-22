@@ -4,16 +4,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px; /* Increased padding */
-  background-color: #e9ecef; /* Lighter background */
-  border-radius: 6px; /* Slightly smaller radius */
-  margin-bottom: 25px; /* More space below */
-  border: 1px solid #ced4da; /* Add a subtle border */
+  padding: 15px;
+  background-color: #e9ecef;
+  border-radius: 6px;
+  margin-bottom: 25px;
+  border: 1px solid #ced4da;
 }
 
 .week-navigator-button {
-  padding: 8px 18px; /* Adjusted padding */
-  font-size: 16px; /* Slightly smaller font */
+  padding: 8px 18px;
+  font-size: 16px;
   cursor: pointer;
   background-color: #007bff;
   color: white;
@@ -27,7 +27,38 @@
 }
 
 .week-navigator-date-display {
-  font-size: 1.25em; /* Slightly larger */
-  font-weight: 600; /* Semi-bold */
-  color: #495057; /* Darker text */
+  font-size: 1.25em;
+  font-weight: 600;
+  color: #495057;
+  text-align: center;
+}
+
+/* 📱 MOBILE FIX: Media Query for screens 600px and smaller */
+@media (max-width: 600px) {
+    .week-navigator {
+        /* FIX: Stack items vertically */
+        flex-direction: column; 
+        padding: 10px; 
+        gap: 10px;
+    }
+
+    .week-navigator-button {
+        /* Make buttons full width for easy tapping */
+        width: 100%; 
+        padding: 10px 18px;
+        margin: 0;
+        font-size: 1em;
+    }
+    
+    /* Ensure elements are stacked correctly */
+    .week-navigator-button:first-of-type {
+        order: 1; /* Prev button first */
+    }
+    .week-navigator-date-display {
+        order: 2; /* Date display in the middle */
+        font-size: 1.1em;
+    }
+    .week-navigator-button:last-of-type {
+        order: 3; /* Next button last */
+    }
 }

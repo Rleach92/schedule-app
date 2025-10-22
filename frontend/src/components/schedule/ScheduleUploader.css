@@ -140,3 +140,50 @@
   border-radius: 4px;
   margin: 10px 0;
 }
+
+/* 📱 MOBILE FIX: Media Query for screens 600px and smaller */
+@media (max-width: 600px) {
+    .uploader-container {
+        padding: 10px; /* Reduce main container padding */
+    }
+
+    .uploader-day-box {
+        padding: 10px; /* Reduce individual day box padding */
+    }
+
+    .uploader-shift-row {
+        /* Force shift row elements to stack vertically */
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+        padding-bottom: 5px;
+    }
+
+    .uploader-select,
+    .uploader-input[type="time"] {
+        /* All inputs and selects take full width */
+        width: 100%;
+        min-width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    /* Remove the 'to' span from the flow */
+    .uploader-shift-row span {
+        display: none; 
+    }
+    
+    /* Center the Add and Submit buttons */
+    .uploader-add-btn,
+    .uploader-submit-btn {
+        width: 100%; 
+        box-sizing: border-box;
+        margin-top: 5px;
+    }
+
+    /* Make the remove button full width and easier to tap */
+    .uploader-remove-btn {
+        width: 100%;
+        margin-left: 0;
+        padding: 8px 12px;
+    }
+}

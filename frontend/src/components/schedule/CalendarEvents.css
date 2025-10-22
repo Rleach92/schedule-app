@@ -2,8 +2,8 @@
 
 .events-container {
   padding: 20px;
-  background-color: #f8f9fa; /* Light background */
-  border: 1px solid #dee2e6; /* Lighter border */
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
   border-radius: 6px;
   margin-bottom: 25px;
 }
@@ -11,45 +11,45 @@
 .events-toggle-btn {
   width: 100%;
   padding: 10px 15px;
-  background-color: #ffc107; /* Yellow */
-  color: #343a40; /* Dark text for contrast */
+  background-color: #ffc107;
+  color: #343a40;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
-  font-weight: 500; /* Medium weight */
-  margin-bottom: 20px; /* Space below button when closed */
+  font-weight: 500;
+  margin-bottom: 20px;
   transition: background-color 0.2s ease;
 }
 
 .events-toggle-btn:hover {
-  background-color: #e0a800; /* Darker yellow */
+  background-color: #e0a800;
 }
 
 .events-form {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  flex-wrap: wrap;
   gap: 10px;
   align-items: center;
-  margin-bottom: 25px; /* Space below form */
-  padding-bottom: 20px; /* Space above event list */
-  border-bottom: 1px solid #dee2e6; /* Separator */
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dee2e6;
 }
 
 .events-input,
 .events-select {
-  padding: 9px 12px; /* Slightly adjusted padding */
+  padding: 9px 12px;
   border-radius: 4px;
   border: 1px solid #ced4da;
-  font-size: 14px; /* Standard form font size */
+  font-size: 14px;
 }
 
 .events-input[type="date"] {
-  min-width: 140px; /* Ensure date input has enough space */
+  min-width: 140px;
 }
 
 .events-input[type="text"] {
-  flex: 1 1 200px; /* Allow text input to grow */
+  flex: 1 1 200px;
   min-width: 150px;
 }
 
@@ -89,21 +89,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 12px; /* Adjusted padding */
-  border: 1px solid #e9ecef; /* Lighter border */
+  padding: 10px 12px;
+  border: 1px solid #e9ecef;
   border-radius: 4px;
-  margin-bottom: 8px; /* Space between items */
-  background-color: #ffffff; /* White background */
+  margin-bottom: 8px;
+  background-color: #ffffff;
   font-size: 14px;
 }
 
 .events-item span {
-  flex-grow: 1; /* Allow text to take available space */
-  margin-right: 10px; /* Space before button */
+  flex-grow: 1;
+  margin-right: 10px;
 }
 
 .events-item strong {
-  margin-right: 5px; /* Space after date */
+  margin-right: 5px;
 }
 
 .events-remove-btn {
@@ -113,9 +113,9 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 12px; /* Smaller button text */
+  font-size: 12px;
   transition: background-color 0.2s ease;
-  white-space: nowrap; /* Prevent wrapping */
+  white-space: nowrap;
 }
 
 .events-remove-btn:hover {
@@ -126,4 +126,53 @@
   color: #6c757d;
   font-style: italic;
   font-size: 14px;
+}
+
+/* 📱 MOBILE FIX: Media Query for small phone screens (e.g., max width 650px) */
+@media (max-width: 650px) {
+    .events-container {
+        padding: 15px; /* Reduce container padding */
+    }
+
+    /* Force all form elements to stack vertically */
+    .events-form {
+        flex-direction: column; 
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .events-input,
+    .events-select,
+    .events-add-btn {
+        width: 100%; /* All form elements take full width */
+        min-width: 100% !important; /* Override min-width on inputs */
+        box-sizing: border-box;
+    }
+    
+    .events-input[type="text"] {
+        flex-basis: auto; /* Remove flex-grow limits */
+    }
+
+    .events-add-btn {
+        padding: 12px 16px; /* Larger tap target */
+        margin-top: 5px;
+    }
+    
+    /* Adjust list item padding and layout */
+    .events-item {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+    
+    .events-item span {
+        /* Allow text content to stack */
+        white-space: normal;
+        margin-right: 5px;
+    }
+    
+    .events-remove-btn {
+        /* Reduce size of delete button */
+        padding: 4px 8px;
+        font-size: 11px;
+    }
 }

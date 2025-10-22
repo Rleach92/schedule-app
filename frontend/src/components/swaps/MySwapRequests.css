@@ -2,7 +2,7 @@
 
 .my-swaps-container {
   padding: 25px;
-  background-color: #f8f9fa; /* Consistent light background */
+  background-color: #f8f9fa;
   border: 1px solid #dee2e6;
   border-radius: 6px;
   margin-bottom: 30px;
@@ -21,32 +21,32 @@
 }
 
 .my-swaps-item {
-  padding: 15px 20px; /* More padding */
+  padding: 15px 20px;
   border: 1px solid #e9ecef;
   border-radius: 4px;
-  margin-bottom: 12px; /* More space */
+  margin-bottom: 12px;
   background-color: #ffffff;
 }
 
 .my-swaps-item p {
-  margin: 0 0 10px 0; /* Consistent spacing */
+  margin: 0 0 10px 0;
   font-size: 14px;
-  line-height: 1.5; /* Improve readability */
+  line-height: 1.5;
   color: #495057;
 }
 
 .my-swaps-item p:last-child {
-  margin-bottom: 0; /* No margin on the last paragraph */
+  margin-bottom: 0;
 }
 
 .my-swaps-item strong {
-  color: #343a40; /* Darker strong text */
+  color: #343a40;
 }
 
 .my-swaps-actions {
   display: flex;
   gap: 10px;
-  margin-top: 15px; /* Space above buttons */
+  margin-top: 15px;
 }
 
 .my-swaps-btn {
@@ -100,15 +100,49 @@
 /* Status Text Styles */
 .my-swaps-status {
   font-weight: bold;
-  font-size: 14px; /* Match paragraph font size */
+  font-size: 14px;
 }
 .my-swaps-status-pending_target { color: #007bff; }
 .my-swaps-status-pending_manager { color: #ffc107; }
 .my-swaps-status-approved { color: #28a745; }
-.my-swaps-status-denied { color: #dc3545; } /* Unified denied color */
+.my-swaps-status-denied { color: #dc3545; }
 
 .my-swaps-none {
   color: #6c757d;
   font-style: italic;
   font-size: 14px;
+}
+
+/* 📱 MOBILE FIX: Media Query for screens 500px and smaller */
+@media (max-width: 500px) {
+    .my-swaps-container {
+        padding: 15px; /* Reduce container padding */
+    }
+
+    .my-swaps-item {
+        padding: 10px 12px; /* Reduce item padding */
+        font-size: 13px; /* Smaller base font size */
+    }
+
+    .my-swaps-item p {
+        /* Reduce margin between paragraphs */
+        margin-bottom: 8px;
+        line-height: 1.4;
+        font-size: 13px;
+    }
+    
+    /* Ensure the action buttons stack */
+    .my-swaps-actions {
+        width: 100%;
+        margin-top: 10px;
+        gap: 5px;
+        flex-direction: column; /* Stack buttons vertically */
+    }
+
+    .my-swaps-accept-btn,
+    .my-swaps-deny-btn {
+        width: 100%; /* Buttons take full width */
+        padding: 10px 6px; /* Larger vertical tap target */
+        font-size: 13px;
+    }
 }

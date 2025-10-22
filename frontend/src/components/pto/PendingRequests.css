@@ -1,18 +1,18 @@
 /* frontend/src/components/pto/PendingRequests.css */
 
 .pending-requests-container {
-  padding: 25px; /* More padding */
-  background-color: #fffbe6; /* Keep yellow background */
-  border: 1px solid #ffeeba; /* Match yellow border */
+  padding: 25px; 
+  background-color: #fffbe6; 
+  border: 1px solid #ffeeba; 
   border-radius: 6px;
-  margin-top: 30px; /* Space above */
-  margin-bottom: 30px; /* Space below */
+  margin-top: 30px; 
+  margin-bottom: 30px; 
 }
 
 .pending-requests-container h3 {
   margin-top: 0;
   margin-bottom: 15px;
-  color: #664d03; /* Darker yellow text */
+  color: #664d03; 
 }
 
 .pending-requests-list {
@@ -33,19 +33,19 @@
   font-size: 14px;
 }
 
-.pending-requests-item div:first-child { /* Target the info div */
+.pending-requests-item div:first-child { 
   flex-grow: 1;
   margin-right: 15px;
 }
 
 .pending-requests-item strong {
-  margin-right: 5px; /* Space after name */
+  margin-right: 5px; 
 }
 
-.pending-requests-item .reason-text { /* Consistent class for reason */
+.pending-requests-item .reason-text {
   color: #6c757d;
   font-style: italic;
-  display: block; /* Put reason on new line */
+  display: block; 
   margin-top: 3px;
 }
 
@@ -55,19 +55,18 @@
 }
 
 .pending-requests-btn {
-  padding: 6px 12px; /* Smaller buttons */
+  padding: 6px 12px; 
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 13px; /* Smaller text */
+  font-size: 13px; 
   font-weight: 500;
   transition: background-color 0.2s ease;
   white-space: nowrap;
 }
 
 .pending-requests-approve-btn {
-  color-scheme: pending-requests-btn; /* Inherit base button styles */
   background-color: #28a745;
 }
 .pending-requests-approve-btn:hover {
@@ -75,7 +74,6 @@
 }
 
 .pending-requests-deny-btn {
-  color-scheme: pending-requests-btn;
   background-color: #dc3545;
 }
 .pending-requests-deny-btn:hover {
@@ -86,4 +84,49 @@
   color: #6c757d;
   font-style: italic;
   font-size: 14px;
+}
+
+/* 📱 MOBILE FIX: Media Query for smaller screens (e.g., max width 600px) */
+@media (max-width: 600px) {
+    .pending-requests-container {
+        padding: 15px; /* Reduce container padding */
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .pending-requests-item {
+        /* Stack vertically to prevent crushing */
+        flex-direction: column; 
+        align-items: flex-start;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .pending-requests-item div:first-child { 
+        width: 100%; /* Info section takes full width */
+        margin-right: 0;
+        margin-bottom: 8px; /* Add space before the actions row */
+    }
+
+    .pending-requests-item strong {
+        /* Ensure the name stands out and can wrap */
+        display: block; 
+        margin-bottom: 3px;
+        font-size: 1em;
+    }
+
+    .pending-requests-actions {
+        /* Ensure action buttons take full width and are stacked */
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 5px; /* Reduce gap between buttons */
+    }
+
+    .pending-requests-btn {
+        /* Make buttons fill the available space */
+        flex: 1; 
+        padding: 8px 6px; /* Increase vertical padding for easy tapping */
+        font-size: 12px; /* Smaller text to ensure it fits */
+    }
 }

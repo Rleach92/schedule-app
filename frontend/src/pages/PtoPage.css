@@ -1,29 +1,54 @@
 /* frontend/src/pages/PtoPage.css */
 
 .pto-page-container {
-  width: 90%;
+  /* FIX: Ensure container is fully flexible on all screens */
+  width: 95%; 
   max-width: 900px;
-  margin: 30px auto; /* More margin top */
-  padding: 0 15px; /* Side padding */
+  margin: 30px auto; 
+  padding: 0 15px; 
   font-family: Arial, sans-serif;
 }
 
 .pto-page-container h2 {
   margin-top: 0;
-  margin-bottom: 25px; /* Space below header */
+  margin-bottom: 25px; 
   color: #343a40;
   text-align: center;
   font-size: 1.8em;
   padding-bottom: 15px;
-  border-bottom: 2px solid #dee2e6; /* Separator line */
+  border-bottom: 2px solid #dee2e6;
 }
-
-/* Note: The components inside this page (PtoRequestForm, MyRequestsList, 
-   PendingRequests) are already styled by their own CSS files. */
 
 /* Basic style for the loading state */
 .pto-page-container p {
   text-align: center;
   color: #6c757d;
   font-size: 1.1em;
+}
+
+/* 📱 MOBILE FIX: Media Query for smaller screens (e.g., max width 768px) */
+@media (max-width: 768px) {
+    .pto-page-container {
+        width: 100%; /* Take up full width on mobile */
+        margin: 15px auto; /* Reduce top margin */
+        padding: 0 10px; /* Slight side padding */
+    }
+
+    .pto-page-container h2 {
+        font-size: 1.5em; /* Slightly smaller header */
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+    }
+    
+    /* ⚠️ CRITICAL MOBILE INSTRUCTION ⚠️ */
+    /* The components inside this page (PtoRequestForm, MyRequestsList, PendingRequests) 
+       likely contain tables or large forms. You must ensure that the CSS files 
+       for those individual components implement media queries to:
+       1. Reduce padding/font size.
+       2. Use horizontal scrolling for tables, or
+       3. Reformat tables using flexbox to stack content vertically.
+    */
+    
+    /* Example: If MyRequestsList has a table, its CSS file should look similar to 
+       the responsive tables we fixed for SchedulePage and ManageStaffPage. */
 }

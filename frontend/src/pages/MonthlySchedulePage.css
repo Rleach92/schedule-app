@@ -2,7 +2,7 @@
 
 .monthly-schedule-container {
   width: 95%;
-  max-width: 1400px; /* Allow wider view */
+  max-width: 1400px;
   margin: 20px auto;
   font-family: Arial, sans-serif;
 }
@@ -39,14 +39,22 @@
   text-align: center;
 }
 
+/* 🐛 MOBILE FIX 1: Wrapper to enable horizontal scrolling */
+.calendar-responsive-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Calendar Table Styles */
 .calendar-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* Equal columns */
+  table-layout: fixed; 
   border: 1px solid #dee2e6;
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  /* 🐛 MOBILE FIX 2: Set minimum table width to prevent crushing */
+  min-width: 700px; 
 }
 
 .calendar-table th {
@@ -56,19 +64,21 @@
   font-weight: 600;
   color: #495057;
   border: 1px solid #dee2e6;
+  /* Ensure header text doesn't wrap unnecessarily */
+  white-space: nowrap; 
 }
 
 .calendar-day {
   border: 1px solid #dee2e6;
   vertical-align: top;
-  height: 120px; /* Fixed height for cells */
-  position: relative; /* For positioning day number */
+  height: 120px; 
+  position: relative;
   padding: 5px;
-  overflow: hidden; /* Hide overflow within the cell */
+  overflow: hidden; 
 }
 
 .calendar-day.empty {
-  background-color: #f8f9fa; /* Lighter background for empty cells */
+  background-color: #f8f9fa;
 }
 
 .day-number {
@@ -81,19 +91,18 @@
 }
 
 .day-content {
-  margin-top: 20px; /* Space below day number */
-  max-height: 95px; /* Limit content height */
-  overflow-y: auto; /* Allow scrolling if content overflows */
-  /* Basic scrollbar styling */
+  margin-top: 20px;
+  max-height: 95px;
+  overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #ced4da #f8f9fa;
 }
 
-/* Event Tag Styling (consistent with ScheduleDisplay) */
+/* Event Tag Styling */
 .event-tag {
-  padding: 3px 6px; /* Smaller padding */
+  padding: 3px 6px;
   border-radius: 3px;
-  font-size: 0.75em; /* Smaller text */
+  font-size: 0.75em;
   font-weight: 500;
   color: white;
   margin-bottom: 3px;
@@ -125,5 +134,49 @@
   color: #004085;
 }
 
-/* Optional: Hide shift times if too cluttered */
-/* .shift-times { display: none; } */
+/* 📱 MOBILE FIX 3: Media query for phone sizes */
+@media (max-width: 768px) {
+    .monthly-schedule-container {
+        padding: 10px;
+        margin-top: 10px;
+    }
+    
+    /* Stack navigation buttons on top of each other */
+    .month-navigation {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .month-navigation button {
+        width: 100%;
+    }
+    
+    /* Reduce padding and font sizes inside the table */
+    .calendar-table th {
+        padding: 6px 3px;
+        font-size: 0.8em;
+    }
+    
+    .calendar-day {
+        /* Reduce cell height to fit more content on screen */
+        height: 80px; 
+        padding: 3px;
+    }
+    
+    .day-number {
+        font-size: 0.75em;
+        top: 3px;
+        right: 3px;
+    }
+    
+    .day-content {
+        margin-top: 15px; /* Adjust for smaller day number */
+        max-height: 60px; /* Reduced max height */
+    }
+    
+    /* Further compress content text */
+    .event-tag, .shift-entry {
+        font-size: 0.7em;
+        padding: 2px 4px;
+        margin-bottom: 2px;
+    }
+}
