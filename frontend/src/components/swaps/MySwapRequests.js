@@ -1,6 +1,8 @@
 // frontend/src/components/swaps/MySwapRequests.js
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
+// FIX: Add formatTime12Hr import
+import { formatTime12Hr } from '../../utils/date-helpers'; 
 import './MySwapRequests.css';
 
 // Define the base URL for the API
@@ -11,7 +13,12 @@ const formatShift = (swap, shiftLetter) => {
   const date = new Date(swap[`shift${shiftLetter}_date`]).toLocaleDateString('en-US', {
     month: 'short', day: 'numeric', timeZone: 'UTC'
   });
-  return `${date} (${swap[`shift${shiftLetter}_startTime`]} - ${swap[`shift${shiftLetter}_endTime`]})`;
+  
+  // FIX: Use formatTime12Hr for both times
+  const startTime = formatTime12Hr(swap[`shift${shiftLetter}_startTime`]);
+  const endTime = formatTime12Hr(swap[`shift${shiftLetter}_endTime`]);
+  
+  return `${date} (${startTime} - ${endTime})`;
 };
 
 // **FIX:** Define this function here, as it's used inside getStatusText
@@ -27,7 +34,7 @@ const getStatusClassName = (status) => {
 
 function MySwapRequests({ requests, onAction }) {
   const { user, token } = useAuth();
-
+  // ... (handleTargetResponse and getStatusText functions remain the same) ...
   const handleTargetResponse = async (id, response) => {
     try {
       const res = await fetch(`${API_URL}/api/swaps/respond/target/${id}`, {
@@ -77,6 +84,7 @@ function MySwapRequests({ requests, onAction }) {
                   <strong>{isTarget ? `${swap.requestingUserName} requests a swap:` : `You requested a swap with ${swap.targetUserName}:`}</strong>
                 </p>
                 <p>
+                  {/* The display times are now 12-hour format */}
                   <strong>Their Shift:</strong> {formatShift(swap, isTarget ? 'A' : 'B')}
                   <br />
                   <strong>Your Shift:</strong> {formatShift(swap, isTarget ? 'B' : 'A')}

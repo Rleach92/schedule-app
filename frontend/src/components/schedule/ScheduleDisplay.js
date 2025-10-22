@@ -1,9 +1,7 @@
 // frontend/src/components/schedule/ScheduleDisplay.js
 import React, { useState } from 'react';
-// IMPORT FIX: Import as a constant, NOT a function. 
-// Assuming getWeekDayNames and getWeekStartingFriday are now constants/functions 
-// as provided in the fixed date-helpers.js file.
-import { getWeekDayNames, getWeekStartingFriday } from '../../utils/date-helpers';
+// IMPORT FIX: Added formatTime12Hr
+import { getWeekDayNames, getWeekStartingFriday, formatTime12Hr } from '../../utils/date-helpers';
 import { useAuth } from '../../context/AuthContext';
 import './ScheduleDisplay.css'; 
 
@@ -33,13 +31,11 @@ function ScheduleDisplay({ schedule, events = [], onSwapRequest }) {
     }
     
     // 2. If no schedule, use the fixed utility to find the start of the current week (Friday)
-    // This is much safer than reimplementing date logic here.
     return getWeekStartingFriday(); 
   };
 
   const startDate = getStartDate();
   // CRASH FIX: Use getWeekDayNames as an array constant
-  // Assuming the component displaying the week days iterates from the startDate
   const dayNames = getWeekDayNames; 
   
   // Create an array of 7 dates starting from the calculated startDate
@@ -171,8 +167,9 @@ function ScheduleDisplay({ schedule, events = [], onSwapRequest }) {
                         title={onSwapRequest && shift.user === user._id ? "Click to select this shift for a swap" : onSwapRequest && !selection ? "Select your shift first" : onSwapRequest && selection ? `Click to propose swapping your selected shift for ${shift.userName}'s shift` : ""}
                       >
                         <div className="shift-name">{shift.userName}</div>
+                        {/* FIX: Use formatTime12Hr helper */}
                         <div className="shift-time">
-                          {shift.startTime} - {shift.endTime}
+                          {formatTime12Hr(shift.startTime)} - {formatTime12Hr(shift.endTime)}
                         </div>
                       </div>
                     ))}
